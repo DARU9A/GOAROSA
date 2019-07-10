@@ -1,30 +1,25 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>메일 보내기</title>
+    <title>쪽지 보내기</title>
   </head>
   <body>
-      <button type="button" onclick="location.href='/main'">GOAROSA</button>
-    <h3>메일 보내기</h3>
+    <a href="/main"><h1>GOAROSA</h1></a>
+    <h2>쪽지 보내기</h2>
     <p>
-      <%= name %> 
-      <% if(status-'0'){ %>
-        선생님
-      <% } else { %>
-        학생
-      <% } %>
+      <%= name %> <%= status %>
       <button type="button" onclick="location.href='/users/logout'">로그아웃</button>
     </p>
     <p>
       <button type="button" onclick="location.href='./inbox'">수신함</button>
       <button type="button" onclick="location.href='./outbox'">발신함</button>
-      <button type="button" onclick="location.href='./send'">메일 보내기</button>
+      <button type="button" onclick="location.href='./send'">쪽지 보내기</button>
     </p>
     <form method="POST">
       To. <input type="text" name="to"><br>
       제목 : <input type="text" name="title"><br>
       내용 : <input type="text" name="content"><br>
-      <input type="submit" value="메일 보내기">
+      <input type="submit" value="쪽지 보내기">
     </form>
   </body>
 </html>

@@ -11,6 +11,7 @@ router.get('/', function(req, res, next) {
 });
 
 //회원가입
+
 //학생
 router.get('/register/student', function(req, res, next) {
   fs.readFile('./public/studentRegister.html', function(err, data){
@@ -26,16 +27,31 @@ router.get('/register/student', function(req, res, next) {
 
 router.post('/register/student', function(req, res, next){
   req.session.error = false;
-  res.redirect('/users/login');
+  db.studentRegister(req.body.name, req.body.password, req.body.classroom,
+    function(err, result){
+      if(err){
+        console.log("Error!");
+      }
+      if(result){
+        console.dir(result);
+        req.session.error = false;
+        res.redirect('/users/login');
+      }
+      else{
+        req.session.error = true;
+        res.redirect('/users/login');
+      }
+    }
+  );
 });
 
 //선생님
 router.get('/register/teacher', function(req, res, next) {
   fs.readFile('./public/teacherRegister.html', function(err, data){
     if(err){
-        res.writeHead(404);
-        res.end(JSON.stringify(err));
-        return;
+      res.writeHead(404);
+      res.end(JSON.stringify(err));
+      return;
     }
     res.writeHead(200, {'Content-Type':'text/html; charset=utf-8'});
     res.end(data);
@@ -43,21 +59,22 @@ router.get('/register/teacher', function(req, res, next) {
 });
 
 router.post('/register/teacher', function(req, res, next){
-  req.session.error = false;
-  db.teacherRegister(req.body.name, req.body.pw, req.body.subject, req.body.department, req.body.chargeClass,
+  db.teacherRegister(req.body.name, req.body.password, req.body.subject, req.body.department, req.body.classroom,
     function(err, result){
       if(err){
         console.log("Error!");
-        return;
       }
       if(result){
         console.dir(result);
-        console.log('회원가입 성공');
-        return;
+        req.session.error = false;
+        res.redirect('/users/login');
       }
-      return;
-    });
-  res.redirect('/users/login');
+      else{
+        req.session.error = true;
+        res.redirect('/users/login');
+      }
+    }
+  );
 });
 
 //로그인
@@ -88,19 +105,42 @@ router.get('/login', function(req, res, next) {
   });
 });
 
-router.post('/login', function(req, res, next){ 
-  var user = {name: req.body.username, password: hashPW("myPass")};
-  if(user.password === hashPW(req.body.pw)){
-    req.session.regenerate(function(){
-      req.session.user = user;
-    });
-  } else{
-    req.session.regenerate(function(){
-      req.session.error = true;
-    });
-  }
-  db.teacherRegister( req.body.name, req.body.pw );
-  res.redirect('/main');
+router.post('/login', function(req, res, next){
+  var user;
+  db.existCheck(req.body.identity, req.body.name,
+    function(err, result){
+      if(err){
+        console.log("Error!");
+      }
+      if(result){
+        console.log('불러오기 성공');
+        //console.dir(result);
+
+        user = result;
+        console.log(user[0].name);
+
+        if(hashPW(user[0].password) === hashPW(req.body.password)){
+          req.session.regenerate(function(){
+            req.session.user = user[0];
+            req.session.identity = req.body.identity;
+            req.session.error = false;
+            res.redirect('/main');
+          });
+        } else{
+          req.session.regenerate(function(){
+            req.session.error = true;
+            res.redirect('/main');
+          });
+        }
+      }
+      else{
+        req.session.regenerate(function(){
+          req.session.error = true;
+          res.redirect('/main');
+        });
+      }
+    }
+  );
 });
 
 module.exports = router;

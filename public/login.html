@@ -7,11 +7,11 @@
         <h3>로그인</form></h3>
         <p>
             <form method="POST">
-                <input type="radio" name="status" value="0" checked>학생
-                <input type="radio" name="status" value="1">선생님<br>
+                <input type="radio" name="identity" value="student" checked>학생
+                <input type="radio" name="identity" value="teacher">선생님<br>
 
-                너의이름 : <input type="text" name="name"><br>
-                비밀번호 : <input type="password" name="pw"><br>
+                너의이름 : <input type="text" name="name" required><br>
+                비밀번호 : <input type="password" name="password" required><br>
                 <input type="submit" value="로그인">
             </form>
         </p>

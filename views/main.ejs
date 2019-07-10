@@ -4,21 +4,51 @@
     <title>게시판</title>
   </head>
   <body>
-      <button type="button" onclick="location.href='/main'">GOAROSA</button>
-    <h3>게시판</h3>
+    <a href="/main"><h1>GOAROSA</h1></a>
+    <h2>게시판</h2>
     <p>
-      <%= name %> 
-      <% if(status-'0'){ %>
-        선생님
-      <% } else { %>
-        학생
-      <% } %>
+      <%= name %> <%= status %>
       <button type="button" onclick="location.href='/users/logout'">로그아웃</button>
     </p>
     <p>
       <button type="button" onclick="location.href='./mail/inbox'">수신함</button>
       <button type="button" onclick="location.href='./mail/outbox'">발신함</button>
-      <button type="button" onclick="location.href='./mail/send'">메일 보내기</button>
+      <button type="button" onclick="location.href='./mail/send'">쪽지 보내기</button>
+    </p>
+    공지사항
+    <p>
+      <ol>
+        <% if(posts){ %>
+          <% posts.forEach(function(val){ %>
+            <% if(val.identity == "teacher") { %>
+              <li>
+                  Content.<%= val.content %> ID.<%= val._id %>
+                  <button id= <%= val._id %>>삭제</button>
+              </li>
+            <% } %>
+          <% }) %>
+        <% } %>
+      </ol>
+    </p>
+    과제
+    <p>
+      <ol>
+        <% if(posts){ %>
+          <% posts.forEach(function(val){ %>
+            <% if(val.identity == "student") { %>
+              <li>
+                  Content.<%= val.content %> ID.<%= val._id %>
+                  <button id= <%= val._id %>>삭제</button>
+              </li>
+            <% } %>
+          <% }) %>
+        <% } %>
+      </ol>
+    </p>
+    <p>
+      <form method="POST">
+        <input type="text" name="content" required><input type="submit" value="올리기">  
+      </form>
     </p>
   </body>
 </html>
