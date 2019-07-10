@@ -5,6 +5,10 @@ var crypro = require('crypto');
 
 var db=require('../model/db');
 
+function hashPW(pwd){
+  return crypro.createHash('sha256').update(pwd).digest('base64').toString();
+}
+
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   res.redirect('/users/login');
@@ -27,7 +31,7 @@ router.get('/register/student', function(req, res, next) {
 
 router.post('/register/student', function(req, res, next){
   req.session.error = false;
-  db.studentRegister(req.body.name, req.body.password, req.body.classroom,
+  db.studentRegister(req.body.name, hashPW(req.body.password), req.body.classroom,
     function(err, result){
       if(err){
         console.log("Error!");
@@ -59,7 +63,7 @@ router.get('/register/teacher', function(req, res, next) {
 });
 
 router.post('/register/teacher', function(req, res, next){
-  db.teacherRegister(req.body.name, req.body.password, req.body.subject, req.body.department, req.body.classroom,
+  db.teacherRegister(req.body.name, hashPW(req.body.password), req.body.subject, req.body.department, req.body.classroom,
     function(err, result){
       if(err){
         console.log("Error!");
@@ -78,10 +82,6 @@ router.post('/register/teacher', function(req, res, next){
 });
 
 //로그인
-function hashPW(pwd){
-  return crypro.createHash('sha256').update(pwd).digest('base64').toString();
-}
-
 router.get('/logout', function(req, res, next){
   req.session.error = false;
   req.session.destroy(function(){
@@ -119,7 +119,7 @@ router.post('/login', function(req, res, next){
         user = result;
         console.log(user[0].name);
 
-        if(hashPW(user[0].password) === hashPW(req.body.password)){
+        if(user[0].password === hashPW(req.body.password)){
           req.session.regenerate(function(){
             req.session.user = user[0];
             req.session.identity = req.body.identity;

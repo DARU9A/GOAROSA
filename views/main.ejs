@@ -18,16 +18,16 @@
     공지사항
     <p>
       <ol>
-        <% if(posts){ %>
-          <% posts.forEach(function(val){ %>
-            <% if(val.identity == "teacher") { %>
-              <li>
-                  Content.<%= val.content %> ID.<%= val._id %>
-                  <button id= <%= val._id %>>삭제</button>
-              </li>
-            <% } %>
-          <% }) %>
-        <% } %>
+          <% if(posts){ %>
+            <% posts.forEach(function(val){ %>
+              <% if(val.identity == "teacher") { %>
+                <li>
+                  <%= val.content %>
+                </li>
+              <% } %>
+            <% }) %>
+          <% } %>
+        </form>
       </ol>
     </p>
     과제
@@ -37,8 +37,7 @@
           <% posts.forEach(function(val){ %>
             <% if(val.identity == "student") { %>
               <li>
-                  Content.<%= val.content %> ID.<%= val._id %>
-                  <button id= <%= val._id %>>삭제</button>
+                <%= val.content %>
               </li>
             <% } %>
           <% }) %>

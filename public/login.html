@@ -4,7 +4,7 @@
         <title>로그인</title>
     </head>
     <body>
-        <h3>로그인</form></h3>
+        <!-- <h3>로그인</form></h3>
         <p>
             <form method="POST">
                 <input type="radio" name="identity" value="student" checked>학생
@@ -12,10 +12,36 @@
 
                 너의이름 : <input type="text" name="name" required><br>
                 비밀번호 : <input type="password" name="password" required><br>
-                <input type="submit" value="로그인">
+                
             </form>
         </p>
         <button type="button" onclick="location.href='/users/register/student'">학생 회원가입</button>
-        <button type="button" onclick="location.href='/users/register/teacher'">선생님 회원가입</button>
+        <button type="button" onclick="location.href='/users/register/teacher'">선생님 회원가입</button> -->
+        <form method="POST">
+            <table border="0">
+                <th colspan="2" align="center" >GOAROSA</th>
+                <tr>
+                    <td align="right"><input type="radio" name="identity" value="student" checked>학생</td>
+                    <td align="left"><input type="radio" name="identity" value="teacher">선생님</td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center"><input type="text" name="name" placeholder="이름" required></td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center"><input type="password" name="password" placeholder="비밀번호" required></td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center"><input type="submit" value="로그인"></td>
+                </tr>
+                <tr>
+                    <td align="center">
+                        <button type="button" onclick="location.href='/users/register/student'">학생 회원가입</button>
+                    </td>
+                    <td align="center">
+                        <button type="button" onclick="location.href='/users/register/teacher'">선생님 회원가입</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
     </body>
 </html>

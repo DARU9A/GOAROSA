@@ -20,8 +20,8 @@
         <% if(mails){ %>
           <% mails.forEach(function(val){ %>
             <li>
-              To.<%= val.to %> Title.<%= val.title %> Content.<%= val.content %> ID.<%= val._id %>
-              <button id= <%= val._id %>>삭제</button>
+              To: <%= val.to %> Title: <%= val.title %><br>
+              Content: <%= val.content %>
             </li>
           <% }) %>
         <% } %>
